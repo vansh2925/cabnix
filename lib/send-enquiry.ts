@@ -1,3 +1,5 @@
+import { request as httpsRequest } from "node:https";
+
 export const enquiryInbox = "info@cabnix.in";
 
 type EnquiryAttachment = {
@@ -115,6 +117,101 @@ async function sendWithWebhook(url: string | undefined, payload: unknown) {
   return true;
 }
 
+function postFormSubmit(body: Buffer, contentType: string) {
+  return new Promise<string>((resolve, reject) => {
+    const req = httpsRequest(
+      `https://formsubmit.co/ajax/${encodeURIComponent(enquiryInbox)}`,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": contentType,
+          "Content-Length": body.length,
+          Origin: "https://www.cabnix.in",
+          Referer: "https://www.cabnix.in/contact",
+        },
+      },
+      (response) => {
+        const chunks: Buffer[] = [];
+        response.on("data", (chunk) => chunks.push(chunk));
+        response.on("end", () => resolve(Buffer.concat(chunks).toString("utf8")));
+      },
+    );
+
+    req.on("error", reject);
+    req.write(body);
+    req.end();
+  });
+}
+
+function encodeFormSubmitBody(email: EnquiryEmail) {
+  const fields: Record<string, string> = {
+    _subject: email.subject,
+    _replyto: email.replyTo,
+    _template: "table",
+    _captcha: "false",
+    email: email.replyTo,
+    message: email.text,
+  };
+
+  if (!email.attachment) {
+    const body = Buffer.from(JSON.stringify(fields));
+    return { body, contentType: "application/json" };
+  }
+
+  const boundary = `----cabnix${Date.now().toString(16)}`;
+  const filename = email.attachment.filename.replace(/[\r\n"]/g, "_");
+  const contentType = email.attachment.contentType.replace(/[\r\n]/g, " ");
+  const parts: Buffer[] = [];
+
+  for (const [name, value] of Object.entries(fields)) {
+    parts.push(
+      Buffer.from(
+        `--${boundary}\r\nContent-Disposition: form-data; name="${name}"\r\n\r\n${value}\r\n`,
+      ),
+    );
+  }
+
+  parts.push(
+    Buffer.from(
+      `--${boundary}\r\nContent-Disposition: form-data; name="attachment"; filename="${filename}"\r\nContent-Type: ${contentType}\r\n\r\n`,
+    ),
+    Buffer.from(email.attachment.content, "base64"),
+    Buffer.from("\r\n"),
+    Buffer.from(`--${boundary}--\r\n`),
+  );
+
+  return {
+    body: Buffer.concat(parts),
+    contentType: `multipart/form-data; boundary=${boundary}`,
+  };
+}
+
+async function sendWithFormSubmit(email: EnquiryEmail) {
+  const encoded = encodeFormSubmitBody(email);
+  const raw = await postFormSubmit(encoded.body, encoded.contentType);
+  const data = (() => {
+    try {
+      return JSON.parse(raw) as { success?: boolean | string; message?: string };
+    } catch {
+      return null;
+    }
+  })();
+  const success = String(data?.success) === "true";
+
+  if (!success) {
+    const detail = data?.message || "The enquiry delivery service rejected the request.";
+    if (/activat/i.test(detail)) {
+      throw new Error(
+        "Open the activation email sent to info@cabnix.in, click Activate Form, then submit again.",
+      );
+    }
+    throw new Error(detail);
+  }
+
+  return true;
+}
+
 export async function deliverEnquiry({
   email,
   webhookUrl,
@@ -139,6 +236,14 @@ export async function deliverEnquiry({
   } catch (error) {
     if (!mailed) {
       lastError = error instanceof Error ? error : new Error("The enquiry delivery service rejected the request.");
+    }
+  }
+
+  if (!mailed && !forwarded) {
+    try {
+      mailed = await sendWithFormSubmit(email);
+    } catch (error) {
+      lastError = error instanceof Error ? error : new Error("Mail delivery failed.");
     }
   }
 
