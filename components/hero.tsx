@@ -11,13 +11,14 @@ export function Hero() {
           alt=""
           fill
           priority
+          quality={90}
           sizes="100vw"
           className="object-cover object-center"
         />
         <div className="absolute inset-0 bg-black/[0.45]" aria-hidden="true" />
 
-        <div className="absolute inset-0 z-10 flex items-center justify-center px-6">
-          <div className="hero-copy w-full max-w-[56.25rem] text-center">
+        <div className="absolute inset-0 z-10 flex items-center justify-center px-5 sm:px-6">
+          <div className="hero-copy w-full min-w-0 max-w-[56.25rem] text-center">
             <h1 className="text-[2.5rem] font-bold leading-[1.08] tracking-[-0.03em] text-white [text-shadow:0_2px_14px_rgba(0,0,0,0.35)] md:text-[3.5rem] lg:text-[4.5rem]">
               Engineering
               <br />

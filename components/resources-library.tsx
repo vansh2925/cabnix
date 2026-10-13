@@ -46,7 +46,7 @@ function ResourceCard({ item }: { item: ResourceItem }) {
           {resourceTypeLabels[item.type]}
         </span>
       </div>
-      <h3 className="mt-5 text-lg font-semibold tracking-tight text-[var(--text)]">{item.title}</h3>
+      <h3 className="mt-5 text-lg font-semibold tracking-tight break-words text-[var(--text)]">{item.title}</h3>
       {item.series || item.category ? (
         <p className="mt-2 text-sm text-[var(--muted)]">{item.series || item.category}</p>
       ) : null}
@@ -127,7 +127,7 @@ export function ResourcesLibrary() {
         </div>
 
         <div
-          className="-mx-1 mt-6 flex gap-2 overflow-x-auto px-1 pb-1"
+          className="table-scroll -mx-1 mt-6 flex gap-2 overflow-x-auto px-1 pb-1"
           role="tablist"
           aria-label="Resource types"
         >

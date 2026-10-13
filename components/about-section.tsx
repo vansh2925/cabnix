@@ -26,7 +26,7 @@ export function AboutSection() {
           </div>
         </div>
 
-        <div className="w-full lg:w-[44%]">
+        <div className="min-w-0 w-full lg:w-[44%]">
           <p className="eyebrow text-[var(--muted)]">Who we are</p>
           <p className="mt-4 text-[var(--muted)]">Welcome To</p>
           <h2 className="h2 max-w-[16ch]">CABNIX</h2>

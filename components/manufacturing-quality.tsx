@@ -8,8 +8,15 @@ export function ManufacturingQuality() {
       <div className="wrap flex flex-col items-center gap-8 py-12 md:flex-row md:items-center md:gap-12 md:py-16 lg:py-[4.5rem]">
         <div className="relative z-[1] w-[10.5rem] shrink-0 bg-white md:w-[12.5rem] md:shadow-[0_12px_32px_rgba(16,24,32,0.1)] lg:w-[13.5rem]">
           {manufacturingCatalogue.coverSrc ? (
-            <div className="relative aspect-[3/4] w-full">
-              <Image src={manufacturingCatalogue.coverSrc} alt="" fill className="object-cover" sizes="220px" />
+            <div className="relative aspect-[1417/2000] w-full">
+              <Image
+                src={manufacturingCatalogue.coverSrc}
+                alt="CABNIX product catalogue"
+                fill
+                quality={90}
+                className="object-contain"
+                sizes="220px"
+              />
             </div>
           ) : (
             <div className="flex aspect-[3/4] w-full flex-col items-center justify-center border border-[var(--border)] px-4 text-center">

@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, type KeyboardEvent, type PointerEvent } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { applications, applicationsBackground } from "@/lib/template";
 
 const AUTOPLAY_MS = 3000;
 const ANIMATION_MS = 700;
+const SWIPE_THRESHOLD = 40;
 
 function ApplicationMedia({ src, alt }: { src: string; alt: string }) {
   if (!src) {
@@ -18,7 +19,7 @@ function ApplicationMedia({ src, alt }: { src: string; alt: string }) {
       src={src}
       alt={alt}
       fill
-      sizes="(min-width: 1024px) 30vw, (min-width: 768px) 45vw, 85vw"
+      sizes="(min-width: 1024px) 30vw, (min-width: 768px) 45vw, 82vw"
       className="object-cover object-center"
     />
   );
@@ -27,11 +28,35 @@ function ApplicationMedia({ src, alt }: { src: string; alt: string }) {
 export function OurApplications() {
   const count = applications.length;
   const slides = [...applications, ...applications];
+  const sectionRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const pointerX = useRef<number | null>(null);
   const [index, setIndex] = useState(0);
   const [stride, setStride] = useState(0);
   const [instant, setInstant] = useState(false);
   const [playId, setPlayId] = useState(0);
+  const [inView, setInView] = useState(false);
+  const [reduceMotion, setReduceMotion] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setReduceMotion(media.matches);
+    update();
+    media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, []);
+
+  useEffect(() => {
+    const node = sectionRef.current;
+    if (!node) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { rootMargin: "80px 0px", threshold: 0.2 },
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
 
   useLayoutEffect(() => {
     const track = trackRef.current;
@@ -54,16 +79,19 @@ export function OurApplications() {
   }, []);
 
   useEffect(() => {
+    if (reduceMotion || !inView) return;
+
     const id = window.setInterval(() => {
       if (document.hidden) return;
       setIndex((current) => (current >= count ? current : current + 1));
     }, AUTOPLAY_MS);
     return () => window.clearInterval(id);
-  }, [count, playId]);
+  }, [count, playId, inView, reduceMotion]);
 
   useEffect(() => {
     if (index < count) return;
 
+    const delay = reduceMotion ? 0 : ANIMATION_MS;
     const id = window.setTimeout(() => {
       setInstant(true);
       setIndex((current) => current % count);
@@ -72,10 +100,10 @@ export function OurApplications() {
           setInstant(false);
         });
       });
-    }, ANIMATION_MS);
+    }, delay);
 
     return () => window.clearTimeout(id);
-  }, [count, index]);
+  }, [count, index, reduceMotion]);
 
   function go(direction: -1 | 1) {
     setPlayId((value) => value + 1);
@@ -95,8 +123,39 @@ export function OurApplications() {
     setIndex((current) => current + direction);
   }
 
+  function onPointerDown(event: PointerEvent<HTMLDivElement>) {
+    pointerX.current = event.clientX;
+    event.currentTarget.setPointerCapture(event.pointerId);
+  }
+
+  function onPointerUp(event: PointerEvent<HTMLDivElement>) {
+    if (pointerX.current == null) return;
+    const delta = event.clientX - pointerX.current;
+    pointerX.current = null;
+    if (Math.abs(delta) < SWIPE_THRESHOLD) return;
+    go(delta < 0 ? 1 : -1);
+  }
+
+  function onPointerCancel() {
+    pointerX.current = null;
+  }
+
+  function onKeyDown(event: KeyboardEvent<HTMLDivElement>) {
+    if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      go(-1);
+    }
+    if (event.key === "ArrowRight") {
+      event.preventDefault();
+      go(1);
+    }
+  }
+
+  const current = applications[index % count];
+  const snap = instant || reduceMotion;
+
   return (
-    <section className="relative overflow-hidden bg-[#1c2430]">
+    <section ref={sectionRef} className="relative overflow-hidden bg-[#1c2430]">
       <div className="absolute inset-0" aria-hidden="true">
         <Image
           src={applicationsBackground}
@@ -105,7 +164,7 @@ export function OurApplications() {
           sizes="100vw"
           className="object-cover object-[center_35%] md:object-center"
         />
-        <div className="absolute inset-0 bg-black/50 md:bg-black/[0.45]" />
+        <div className="absolute inset-0 bg-black/80" />
       </div>
 
       <div className="relative z-10 wrap section">
@@ -117,7 +176,17 @@ export function OurApplications() {
           </p>
         </div>
 
-        <div className="relative mt-12" role="region" aria-roledescription="carousel" aria-label="Our applications">
+        <div
+          className="relative mt-12"
+          role="region"
+          aria-roledescription="carousel"
+          aria-label="Our applications"
+          tabIndex={0}
+          onKeyDown={onKeyDown}
+        >
+          <p className="sr-only" aria-live="polite">
+            {current?.title}
+          </p>
           <button
             type="button"
             className="applications-arrow left-0"
@@ -127,10 +196,15 @@ export function OurApplications() {
             <ChevronLeft size={22} aria-hidden="true" />
           </button>
 
-          <div className="applications-viewport">
+          <div
+            className="applications-viewport touch-pan-y"
+            onPointerDown={onPointerDown}
+            onPointerUp={onPointerUp}
+            onPointerCancel={onPointerCancel}
+          >
             <div
               ref={trackRef}
-              className={instant ? "applications-track is-instant" : "applications-track"}
+              className={snap ? "applications-track is-instant" : "applications-track"}
               style={{ transform: `translate3d(${-index * stride}px, 0, 0)` }}
             >
               {slides.map((item, slideIndex) => (
@@ -138,7 +212,9 @@ export function OurApplications() {
                   <div className="relative aspect-[16/10] overflow-hidden rounded-[4px] bg-[#d8d8d8]">
                     <ApplicationMedia src={item.image} alt={slideIndex < count ? item.title : ""} />
                   </div>
-                  <h3 className="mt-4 text-center text-base font-semibold tracking-tight text-white">{item.title}</h3>
+                  <h3 className="mt-4 text-center text-base font-semibold tracking-tight break-words text-white">
+                    {item.title}
+                  </h3>
                 </article>
               ))}
             </div>

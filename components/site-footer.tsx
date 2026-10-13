@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { BackToTop } from "@/components/back-to-top";
-import { HomeFooterCta } from "@/components/home-footer-cta";
 import { company } from "@/lib/site-data";
 import { navItems, productNavItems, socialLinks } from "@/lib/template";
 
@@ -21,10 +20,7 @@ export function SiteFooter() {
   const productRange = productNavItems;
 
   return (
-    <>
-      <HomeFooterCta />
-
-      <footer className="border-t border-white/10 bg-[var(--navy)] text-white">
+    <footer className="border-t border-white/10 bg-[var(--navy)] text-white">
         <section aria-label="Site footer">
           <div className="wrap grid gap-12 py-14 md:grid-cols-2 md:gap-x-10 md:gap-y-12 lg:grid-cols-4 lg:gap-x-12 lg:py-16">
             <div>
@@ -34,6 +30,7 @@ export function SiteFooter() {
                   alt={company.name}
                   width={220}
                   height={52}
+                  sizes="176px"
                   className="h-11 w-auto object-contain"
                 />
               </Link>
@@ -148,7 +145,6 @@ export function SiteFooter() {
         </div>
 
         <BackToTop />
-      </footer>
-    </>
+    </footer>
   );
 }

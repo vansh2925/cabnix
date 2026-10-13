@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { deliverEnquiry, enquiryContent, enquiryInbox, fileToAttachment } from "@/lib/send-enquiry";
 
 const maxAttachmentSize = 10 * 1024 * 1024;
 const requiredFields = ["name", "company", "country", "email"] as const;
@@ -37,16 +38,8 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Attachment exceeds the 10 MB limit." }, { status: 400 });
   }
 
-  if (!process.env.RFQ_WEBHOOK_URL) {
-    return NextResponse.json(
-      { error: "RFQ delivery is not configured yet." },
-      { status: 503 },
-    );
-  }
-
-  const attachmentDetails = attachment instanceof File && attachment.size > 0
-    ? { name: attachment.name, type: attachment.type, size: attachment.size }
-    : null;
+  const file = attachment instanceof File ? attachment : null;
+  const mailAttachment = await fileToAttachment(file && file.size > 0 ? file : null);
   const payload = Object.fromEntries(
     [
       "name",
@@ -62,18 +55,42 @@ export async function POST(request: Request) {
       "message",
     ].map((field) => [field, String(formData.get(field) || "")]),
   );
-
-  const deliveryResponse = await fetch(process.env.RFQ_WEBHOOK_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ ...payload, attachment: attachmentDetails }),
+  const content = enquiryContent({
+    Name: payload.name,
+    Company: payload.company,
+    Country: payload.country,
+    Email: payload.email,
+    Phone: payload.phone,
+    Product: payload.product,
+    "Product code": payload.productCode,
+    Quantity: payload.quantity,
+    Application: payload.application,
+    Standard: payload.standard,
+    Message: payload.message,
+    Attachment: mailAttachment ? mailAttachment.filename : "",
   });
 
-  if (!deliveryResponse.ok) {
-    return NextResponse.json(
-      { error: "The enquiry delivery service rejected the request." },
-      { status: 502 },
-    );
+  try {
+    await deliverEnquiry({
+      email: {
+        subject: `CABNIX quote enquiry${payload.product ? `: ${payload.product}` : ""}`,
+        replyTo: payload.email,
+        text: `A quote enquiry was submitted for ${enquiryInbox}.\n\n${content.text}`,
+        html: `<p>A quote enquiry was submitted for ${enquiryInbox}.</p>${content.html}`,
+        attachment: mailAttachment,
+      },
+      webhookUrl: process.env.RFQ_WEBHOOK_URL,
+      webhookPayload: {
+        ...payload,
+        attachment: mailAttachment
+          ? { name: mailAttachment.filename, type: mailAttachment.contentType, size: file?.size ?? 0 }
+          : null,
+      },
+    });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "The enquiry could not be submitted.";
+    const status = message.includes("not configured") ? 503 : 502;
+    return NextResponse.json({ error: message }, { status });
   }
 
   return NextResponse.json({ received: true }, { status: 202 });

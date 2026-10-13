@@ -1,35 +1,23 @@
-"use client";
-
 import Image from "next/image";
-import { useState } from "react";
 import { aboutMainSrc } from "@/lib/template";
 
 export function AboutWelcome() {
-  const [failed, setFailed] = useState(false);
-
   return (
     <section className="bg-white" aria-labelledby="about-welcome-heading">
       <div className="about-wrap about-section flex flex-col gap-10 lg:flex-row lg:items-center lg:gap-14">
         <div className="w-full shrink-0 lg:w-[45%]">
-          {failed ? (
-            <div className="image-stage aspect-[16/10] min-h-0" aria-hidden="true">
-              Image placeholder
-            </div>
-          ) : (
-            <div className="relative aspect-[16/10] overflow-hidden bg-[var(--stage-2)]">
-              <Image
-                src={aboutMainSrc}
-                alt="CABNIX workshop production floor with technicians operating CNC machines"
-                fill
-                sizes="(min-width: 1024px) 45vw, 100vw"
-                className="object-cover object-center"
-                onError={() => setFailed(true)}
-              />
-            </div>
-          )}
+          <div className="relative aspect-[16/10] overflow-hidden bg-[var(--stage-2)]">
+            <Image
+              src={aboutMainSrc}
+              alt="CABNIX workshop production floor with technicians operating CNC machines"
+              fill
+              sizes="(min-width: 1024px) 45vw, 100vw"
+              className="object-cover object-center"
+            />
+          </div>
         </div>
 
-        <div className="w-full text-left lg:w-[55%]">
+        <div className="min-w-0 w-full text-left lg:w-[55%]">
           <p className="text-[0.8125rem] font-semibold tracking-[0.18em] text-[var(--muted)] uppercase lg:text-[0.875rem]">
             Welcome To
           </p>

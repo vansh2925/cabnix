@@ -91,7 +91,7 @@ export function ContactForm() {
       <form
         onSubmit={handleSubmit}
         noValidate
-        className="mx-auto mt-10 max-w-[1100px] rounded-lg border border-[var(--border)] bg-white p-6 shadow-[0_12px_32px_rgba(16,24,32,0.06)] md:mt-14 md:p-10 lg:p-12"
+        className="mx-auto mt-10 max-w-[1100px] min-w-0 rounded-lg border border-[var(--border)] bg-white p-6 shadow-[0_12px_32px_rgba(16,24,32,0.06)] md:mt-14 md:p-10 lg:p-12"
       >
         <div className="sr-only" aria-hidden="true">
           <label>
@@ -100,8 +100,8 @@ export function ContactForm() {
           </label>
         </div>
 
-        <div className="grid gap-5 md:grid-cols-2">
-          <label className="block text-sm font-medium">
+        <div className="grid min-w-0 gap-5 md:grid-cols-2">
+          <label className="block min-w-0 text-sm font-medium">
             First Name *
             <input
               name="firstName"
@@ -112,7 +112,7 @@ export function ContactForm() {
             />
             <FieldError id="firstName-error" message={errors.firstName} />
           </label>
-          <label className="block text-sm font-medium">
+          <label className="block min-w-0 text-sm font-medium">
             Last Name *
             <input
               name="lastName"
@@ -123,7 +123,7 @@ export function ContactForm() {
             />
             <FieldError id="lastName-error" message={errors.lastName} />
           </label>
-          <label className="block text-sm font-medium">
+          <label className="block min-w-0 text-sm font-medium">
             Your Email *
             <input
               name="email"
@@ -135,7 +135,7 @@ export function ContactForm() {
             />
             <FieldError id="email-error" message={errors.email} />
           </label>
-          <label className="block text-sm font-medium">
+          <label className="block min-w-0 text-sm font-medium">
             Your Phone *
             <input
               name="phone"
@@ -147,7 +147,7 @@ export function ContactForm() {
             />
             <FieldError id="phone-error" message={errors.phone} />
           </label>
-          <label className="block text-sm font-medium md:col-span-2">
+          <label className="block min-w-0 text-sm font-medium md:col-span-2">
             Subject *
             <input
               name="subject"
@@ -157,7 +157,7 @@ export function ContactForm() {
             />
             <FieldError id="subject-error" message={errors.subject} />
           </label>
-          <label className="block text-sm font-medium md:col-span-2">
+          <label className="block min-w-0 text-sm font-medium md:col-span-2">
             Your Message *
             <textarea
               name="message"

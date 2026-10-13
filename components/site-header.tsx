@@ -10,8 +10,14 @@ import { navItems, productNavItems } from "@/lib/template";
 export function SiteHeader() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [menuPath, setMenuPath] = useState(pathname);
   const productsActive = pathname === "/products" || pathname.startsWith("/products/");
   const aboutActive = pathname === "/about" || pathname === "/about-us";
+
+  if (menuPath !== pathname) {
+    setMenuPath(pathname);
+    setOpen(false);
+  }
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -21,8 +27,15 @@ export function SiteHeader() {
   }, [open]);
 
   useEffect(() => {
-    setOpen(false);
-  }, [pathname]);
+    if (!open) return;
+
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") setOpen(false);
+    }
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [open]);
 
   const navLink = (active: boolean) =>
     `py-3 text-[0.9375rem] font-medium hover:text-[#f49400] ${
@@ -31,14 +44,16 @@ export function SiteHeader() {
 
   return (
     <header className="site-header sticky inset-x-0 top-0 z-50 border-b border-black/[0.08] bg-[#ffffff] text-[var(--navy)]">
-      <div className="wrap flex h-24 items-center gap-8 lg:gap-10">
-        <Link href="/" className="flex shrink-0 items-center" aria-label="CABNIX home">
+      <div className="wrap grid h-24 min-w-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-3 sm:gap-4 xl:grid-cols-[1fr_auto_1fr] xl:gap-8">
+        <Link href="/" className="flex shrink-0 items-center justify-self-start" aria-label="CABNIX home">
           <Image
             src="/cabnix-logo.png"
             alt="CABNIX"
             width={220}
             height={52}
             priority
+            loading="eager"
+            sizes="(min-width: 1024px) 176px, (min-width: 640px) 160px, 144px"
             className="h-9 w-auto object-contain sm:h-10 lg:h-11"
           />
         </Link>
@@ -60,7 +75,7 @@ export function SiteHeader() {
                     <Link
                       key={product.href}
                       href={product.href}
-                      className="block px-4 py-2.5 text-sm text-[var(--navy)] hover:bg-[#f7f8fa] hover:text-[#f49400]"
+                      className="flex min-h-11 items-center px-4 py-2.5 text-sm text-[var(--navy)] hover:bg-[#f7f8fa] hover:text-[#f49400]"
                     >
                       {product.label}
                     </Link>
@@ -74,9 +89,7 @@ export function SiteHeader() {
                 aria-current={
                   (item.href === "/" && pathname === "/") ||
                   (item.href === "/about" && aboutActive) ||
-                  (item.href === "/certificate" && pathname === "/certificate") ||
-                  (item.href === "/resources" &&
-                    (pathname === "/resources" || pathname.startsWith("/resources/"))) ||
+                  (item.href === "/quality" && pathname === "/quality") ||
                   (item.href === "/contact" && pathname === "/contact")
                     ? "page"
                     : undefined
@@ -84,9 +97,7 @@ export function SiteHeader() {
                 className={navLink(
                   (item.href === "/" && pathname === "/") ||
                     (aboutActive && item.href === "/about") ||
-                    (pathname === "/certificate" && item.href === "/certificate") ||
-                    (item.href === "/resources" &&
-                      (pathname === "/resources" || pathname.startsWith("/resources/"))) ||
+                    (pathname === "/quality" && item.href === "/quality") ||
                     (pathname === "/contact" && item.href === "/contact"),
                 )}
               >
@@ -99,7 +110,7 @@ export function SiteHeader() {
         <div className="ml-auto flex shrink-0 items-center gap-2">
           <Link
             href="/request-quote"
-            className="btn hidden min-h-11 bg-[#f49400] px-5 text-[0.7rem] text-white hover:bg-[#d67d00] sm:!inline-flex"
+            className="btn max-sm:!hidden min-h-11 bg-[#f49400] px-5 text-[0.7rem] text-white hover:bg-[#d67d00] sm:!inline-flex"
           >
             Request a Quote
           </Link>
@@ -130,15 +141,13 @@ export function SiteHeader() {
                   aria-current={
                     (item.href === "/" && pathname === "/") ||
                     (item.href === "/about" && aboutActive) ||
-                    (item.href === "/certificate" && pathname === "/certificate") ||
-                    (item.href === "/resources" &&
-                      (pathname === "/resources" || pathname.startsWith("/resources/"))) ||
+                    (item.href === "/quality" && pathname === "/quality") ||
                     (item.href === "/contact" && pathname === "/contact") ||
                     (item.href === "/products" && productsActive)
                       ? "page"
                       : undefined
                   }
-                  className="block py-2.5 text-base font-medium text-[var(--navy)]"
+                  className="flex min-h-11 items-center py-2.5 text-base font-medium text-[var(--navy)]"
                   onClick={() => setOpen(false)}
                 >
                   {item.label}
@@ -148,7 +157,7 @@ export function SiteHeader() {
                       <Link
                         key={product.href}
                         href={product.href}
-                        className="block py-2 pl-4 text-sm text-[var(--muted)]"
+                        className="flex min-h-11 items-center py-2 pl-4 text-sm text-[var(--muted)]"
                         onClick={() => setOpen(false)}
                       >
                         {product.label}

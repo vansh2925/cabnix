@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { deliverEnquiry, enquiryContent, enquiryInbox } from "@/lib/send-enquiry";
 
 const requiredFields = ["firstName", "lastName", "email", "phone", "subject", "message"] as const;
 
@@ -31,25 +32,33 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "A valid phone number is required." }, { status: 400 });
   }
 
-  if (!process.env.CONTACT_WEBHOOK_URL) {
-    return NextResponse.json({ error: "Contact delivery is not configured yet." }, { status: 503 });
-  }
-
   const payload = Object.fromEntries(
     requiredFields.map((field) => [field, String(formData.get(field) || "").trim()]),
   );
-
-  const deliveryResponse = await fetch(process.env.CONTACT_WEBHOOK_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
+  const content = enquiryContent({
+    "First name": payload.firstName,
+    "Last name": payload.lastName,
+    Email: payload.email,
+    Phone: payload.phone,
+    Subject: payload.subject,
+    Message: payload.message,
   });
 
-  if (!deliveryResponse.ok) {
-    return NextResponse.json(
-      { error: "The contact delivery service rejected the request." },
-      { status: 502 },
-    );
+  try {
+    await deliverEnquiry({
+      email: {
+        subject: `CABNIX website message: ${payload.subject}`,
+        replyTo: payload.email,
+        text: `A contact form message was submitted for ${enquiryInbox}.\n\n${content.text}`,
+        html: `<p>A contact form message was submitted for ${enquiryInbox}.</p>${content.html}`,
+      },
+      webhookUrl: process.env.CONTACT_WEBHOOK_URL,
+      webhookPayload: payload,
+    });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "The message could not be sent.";
+    const status = message.includes("not configured") ? 503 : 502;
+    return NextResponse.json({ error: message }, { status });
   }
 
   return NextResponse.json({ received: true }, { status: 202 });

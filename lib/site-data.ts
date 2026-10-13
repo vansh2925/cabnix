@@ -7,16 +7,12 @@ export const company = {
 
 export const productMegaMenu = [
   {
-    title: "Cable Glands",
+    title: "Products",
     items: [
       { label: "Brass Cable Glands", href: "/products/brass-cable-glands" },
-      { label: "Stainless Steel Cable Glands", href: "/products/stainless-steel-cable-glands" },
-      { label: "Industrial Cable Glands", href: "/products/industrial-cable-glands" },
-      { label: "EMC Cable Glands", href: "/products/emc-cable-glands" },
+      { label: "Brass Inserts", href: "/products/brass-inserts" },
+      { label: "Cable Gland Accessories", href: "/products/accessories" },
+      { label: "Brass Electric Components", href: "/products/brass-electric-parts" },
     ],
-  },
-  {
-    title: "Accessories",
-    items: [{ label: "Accessories", href: "/products/accessories" }],
   },
 ];
