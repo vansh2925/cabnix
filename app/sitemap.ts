@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { catalogueProducts, featuredProductHref } from "@/lib/template";
 
-const siteUrl = "https://example.com";
+const siteUrl = "https://www.cabnix.in";
 
 const staticRoutes = [
   "/",
