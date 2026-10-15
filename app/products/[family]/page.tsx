@@ -25,7 +25,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return { title: "Products" };
   }
 
-  return { title: item.name, description: item.description };
+  const placeholderDescription = /will be added here/i.test(item.description);
+
+  return {
+    title: item.name,
+    description: placeholderDescription
+      ? `${item.name} from CABNIX for electrical and industrial applications.`
+      : item.description,
+  };
 }
 
 export default async function ProductFamilyPage({ params }: PageProps) {

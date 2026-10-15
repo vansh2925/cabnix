@@ -4,7 +4,8 @@ import { ProductsListing } from "@/components/products-listing";
 
 export const metadata: Metadata = {
   title: "Products",
-  description: "Explore our range of products designed for industrial and electrical applications.",
+  description:
+    "Brass cable glands, cable gland accessories, brass inserts, and precision brass components from CABNIX.",
 };
 
 export default function ProductsPage() {

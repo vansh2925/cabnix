@@ -4,7 +4,7 @@ import { ResourcesLibrary } from "@/components/resources-library";
 
 export const metadata: Metadata = {
   title: "Resources",
-  description: "Technical documents and product resources will be added here.",
+  description: "CABNIX technical documents and product resources will be added here.",
 };
 
 export default function ResourcesPage() {

@@ -10,12 +10,32 @@ const geistSans = Geist({
   display: "swap",
 });
 
+const siteUrl = "https://www.cabnix.in";
+const siteTitle = "CABNIX | Precision Brass Cable Glands & Components";
+const siteDescription =
+  "CABNIX, a specialized brand of Varudi Brass Products, manufactures brass cable glands, cable gland accessories, and precision brass components for electrical and industrial applications.";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
-    default: "Company Name | Precision Manufacturing Solutions",
-    template: "%s | Company Name",
+    default: siteTitle,
+    template: "%s | CABNIX",
   },
-  description: "Short supporting text goes here.",
+  description: siteDescription,
+  applicationName: "CABNIX",
+  openGraph: {
+    type: "website",
+    locale: "en",
+    url: siteUrl,
+    siteName: "CABNIX",
+    title: siteTitle,
+    description: siteDescription,
+  },
+  twitter: {
+    card: "summary",
+    title: siteTitle,
+    description: siteDescription,
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

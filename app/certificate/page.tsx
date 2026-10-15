@@ -5,7 +5,8 @@ import { CertificateGrid } from "@/components/certificate-grid";
 
 export const metadata: Metadata = {
   title: "Certificate",
-  description: "Certification documents and quality credentials will be presented here as they become available.",
+  description:
+    "CABNIX certification documents and quality credentials will be presented here as they become available.",
 };
 
 export default function CertificatePage() {
