@@ -940,9 +940,9 @@ export const productFamilies: ProductFamily[] = [
     models: cableGlandAccessoryModels,
   },
   {
-    id: "brass-electric-parts",
+    id: "brass-electric-components",
     name: "Brass Electric Components",
-    slug: "brass-electric-parts",
+    slug: "brass-electric-components",
     description: "Product description will be added here.",
     image: "",
     models: brassElectricComponentModels,
@@ -997,7 +997,7 @@ export type FeaturedProduct = {
 export const homepageProductRange: FeaturedProduct[] = [
   { slug: "brass-cable-glands", name: "Brass Cable Glands", category: "Products", description: productCardCopy, imageSrc: "/images/products/brass-cable-glands/range-wide.png" },
   { slug: "accessories", name: "Cable Gland Accessories", category: "Products", description: productCardCopy, imageSrc: "/images/products/accessories/range-wide.png" },
-  { slug: "brass-electric-parts", name: "Brass Electric Components", category: "Products", description: productCardCopy, imageSrc: "/images/products/brass-electric-parts/electric-01.jpg" },
+  { slug: "brass-electric-components", name: "Brass Electric Components", category: "Products", description: productCardCopy, imageSrc: "/images/products/brass-electric-parts/electric-01.jpg" },
   { slug: "brass-inserts", name: "Brass Inserts", category: "Products", description: productCardCopy, imageSrc: "/images/products/brass-inserts/range-wide.png" },
 ];
 

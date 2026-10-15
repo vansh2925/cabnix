@@ -9,6 +9,15 @@ const nextConfig: NextConfig = {
     formats: ["image/avif", "image/webp"],
     minimumCacheTTL: 60 * 60 * 24 * 30,
   },
+  async redirects() {
+    return [
+      {
+        source: "/products/brass-electric-parts",
+        destination: "/products/brass-electric-components",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
