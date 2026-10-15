@@ -10,9 +10,9 @@ export const productMegaMenu = [
     title: "Products",
     items: [
       { label: "Brass Cable Glands", href: "/products/brass-cable-glands" },
-      { label: "Brass Inserts", href: "/products/brass-inserts" },
       { label: "Cable Gland Accessories", href: "/products/accessories" },
       { label: "Brass Electric Components", href: "/products/brass-electric-parts" },
+      { label: "Brass Inserts", href: "/products/brass-inserts" },
     ],
   },
 ];

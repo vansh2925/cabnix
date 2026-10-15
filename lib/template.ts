@@ -932,6 +932,22 @@ export const productFamilies: ProductFamily[] = [
     models: brassCableGlandModels,
   },
   {
+    id: "accessories",
+    name: "Cable Gland Accessories",
+    slug: "accessories",
+    description: "Product description will be added here.",
+    image: "/images/products/accessories/main.jpg",
+    models: cableGlandAccessoryModels,
+  },
+  {
+    id: "brass-electric-parts",
+    name: "Brass Electric Components",
+    slug: "brass-electric-parts",
+    description: "Product description will be added here.",
+    image: "",
+    models: brassElectricComponentModels,
+  },
+  {
     id: "brass-inserts",
     name: "Brass Inserts",
     slug: "brass-inserts",
@@ -963,22 +979,6 @@ export const productFamilies: ProductFamily[] = [
     image: "/images/products/emc-cable-glands/main.jpg",
     models: placeholderModels,
   },
-  {
-    id: "accessories",
-    name: "Cable Gland Accessories",
-    slug: "accessories",
-    description: "Product description will be added here.",
-    image: "/images/products/accessories/main.jpg",
-    models: cableGlandAccessoryModels,
-  },
-  {
-    id: "brass-electric-parts",
-    name: "Brass Electric Components",
-    slug: "brass-electric-parts",
-    description: "Product description will be added here.",
-    image: "",
-    models: brassElectricComponentModels,
-  },
 ];
 
 export const productListingIntro =
@@ -996,9 +996,9 @@ export type FeaturedProduct = {
 
 export const homepageProductRange: FeaturedProduct[] = [
   { slug: "brass-cable-glands", name: "Brass Cable Glands", category: "Products", description: productCardCopy, imageSrc: "/images/products/brass-cable-glands/range-wide.png" },
-  { slug: "brass-inserts", name: "Brass Inserts", category: "Products", description: productCardCopy, imageSrc: "/images/products/brass-inserts/range-wide.png" },
   { slug: "accessories", name: "Cable Gland Accessories", category: "Products", description: productCardCopy, imageSrc: "/images/products/accessories/range-wide.png" },
   { slug: "brass-electric-parts", name: "Brass Electric Components", category: "Products", description: productCardCopy, imageSrc: "/images/products/brass-electric-parts/electric-01.jpg" },
+  { slug: "brass-inserts", name: "Brass Inserts", category: "Products", description: productCardCopy, imageSrc: "/images/products/brass-inserts/range-wide.png" },
 ];
 
 export const catalogueProducts: FeaturedProduct[] = homepageProductRange;
@@ -1055,7 +1055,7 @@ export const whyChooseFeatures = [
 ] as const;
 
 export const whyChoosePanel = {
-  value: "20+",
+  value: "25",
   label: "Years of\nExperience",
   copy: "CABNIX is specialized in the design and manufacturing of brass cable glands, precision brass components and cable entry solutions for electrical, plumbing and industrial applications.",
   href: "/about-us",
@@ -1145,7 +1145,7 @@ export const qualityPolicy = {
   eyebrow: "Quality Assurance",
   title: "Quality Policy",
   intro: [
-    "At CABNIX, quality is built into manufacturing — from precision machining and finishing through inspection and packing. As a specialized brand of Varudi Brass Products with 20+ years of brass manufacturing experience since 2003, we focus on consistent workmanship so customers receive reliable brass cable glands, cable gland accessories, and precision brass components.",
+    "At CABNIX, quality is built into manufacturing — from precision machining and finishing through inspection and packing. As a specialized brand of Varudi Brass Products with 25 years of brass manufacturing experience since 2001, we focus on consistent workmanship so customers receive reliable brass cable glands, cable gland accessories, and precision brass components.",
     "We serve electrical, plumbing, and industrial applications from Jamnagar, Gujarat, India, and support both standard products and components developed to customer drawings, dimensions, and technical specifications.",
   ],
   image: "/images/quality-main.jpg",

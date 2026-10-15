@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 const points = [
-  "20+ years of brass manufacturing experience since 2003.",
+  "25 years of brass manufacturing experience since 2001.",
   "Specialized in brass cable glands and components.",
   "Precision brass components for electrical, plumbing & industrial applications.",
   "Precision machining and component manufacturing.",

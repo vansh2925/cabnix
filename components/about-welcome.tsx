@@ -33,8 +33,8 @@ export function AboutWelcome() {
           <div className="mt-6 max-w-[37.5rem] space-y-5 text-[1.0625rem] leading-[1.75] text-[var(--muted)]">
             <p>
               CABNIX, a specialized brand of <strong className="font-semibold text-[var(--text)]">Varudi Brass Products</strong>,
-              brings over{" "}
-              <strong className="font-semibold text-[var(--text)]">20 years of brass manufacturing experience since 2003</strong>{" "}
+              brings{" "}
+              <strong className="font-semibold text-[var(--text)]">25 years of brass manufacturing experience since 2001</strong>{" "}
               to the production of brass cable glands, cable gland accessories, and precision brass components. Based in
               Jamnagar, Gujarat, India, we serve electrical, plumbing, and industrial applications with a focus on
               precision, consistent workmanship, and product reliability.
