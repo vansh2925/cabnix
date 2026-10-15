@@ -1128,7 +1128,7 @@ export const manufacturingMedia = {
 
 export const manufacturingCatalogue = {
   coverSrc: "/images/catalogue-cabnix.jpg",
-  href: "/resources/catalogues",
+  href: "/catalogues/cabnix-catalogue.pdf",
 };
 
 export const socialLinks: { label: string; href: string }[] = [];

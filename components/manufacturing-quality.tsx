@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import { manufacturingCatalogue } from "@/lib/template";
 
 export function ManufacturingQuality() {
@@ -32,9 +31,14 @@ export function ManufacturingQuality() {
           <p className="mt-3 text-[var(--muted)]">
             Discover our product range, technical information, and resources in one place.
           </p>
-          <Link href={manufacturingCatalogue.href} className="btn btn-primary mt-7">
+          <a
+            href={manufacturingCatalogue.href}
+            className="btn btn-primary mt-7"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             View Catalogue
-          </Link>
+          </a>
         </div>
       </div>
     </section>

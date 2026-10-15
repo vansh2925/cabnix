@@ -16,6 +16,11 @@ const nextConfig: NextConfig = {
         destination: "/products/brass-electric-components",
         permanent: true,
       },
+      {
+        source: "/resources/catalogues",
+        destination: "/catalogues/cabnix-catalogue.pdf",
+        permanent: true,
+      },
     ];
   },
 };
