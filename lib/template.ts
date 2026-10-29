@@ -832,8 +832,9 @@ const brassInsertModels: ProductModel[] = [
   {
     id: "brass-inserts",
     label: "Brass Inserts",
-    image: "/images/products/brass-inserts/insert-01.jpg",
+    image: "/images/products/brass-inserts/range-wide.jpg",
     images: [
+      "/images/products/brass-inserts/range-wide.jpg",
       "/images/products/brass-inserts/insert-01.jpg",
       "/images/products/brass-inserts/insert-02.jpg",
       "/images/products/brass-inserts/insert-03.jpg",
@@ -952,7 +953,7 @@ export const productFamilies: ProductFamily[] = [
     name: "Brass Inserts",
     slug: "brass-inserts",
     description: "Product description will be added here.",
-    image: "/images/products/brass-inserts/range-card.png",
+    image: "/images/products/brass-inserts/range-wide.jpg",
     models: brassInsertModels,
   },
   {
@@ -995,10 +996,10 @@ export type FeaturedProduct = {
 };
 
 export const homepageProductRange: FeaturedProduct[] = [
-  { slug: "brass-cable-glands", name: "Brass Cable Glands", category: "Products", description: productCardCopy, imageSrc: "/images/products/brass-cable-glands/range-wide.png" },
+  { slug: "brass-cable-glands", name: "Brass Cable Glands", category: "Products", description: productCardCopy, imageSrc: "/images/products/brass-cable-glands/range-wide.jpg" },
   { slug: "accessories", name: "Cable Gland Accessories", category: "Products", description: productCardCopy, imageSrc: "/images/products/accessories/range-wide.png" },
   { slug: "brass-electric-components", name: "Brass Electric Components", category: "Products", description: productCardCopy, imageSrc: "/images/products/brass-electric-parts/electric-01.jpg" },
-  { slug: "brass-inserts", name: "Brass Inserts", category: "Products", description: productCardCopy, imageSrc: "/images/products/brass-inserts/range-wide.png" },
+  { slug: "brass-inserts", name: "Brass Inserts", category: "Products", description: productCardCopy, imageSrc: "/images/products/brass-inserts/range-wide.jpg" },
 ];
 
 export const catalogueProducts: FeaturedProduct[] = homepageProductRange;
