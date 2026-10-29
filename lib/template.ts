@@ -883,7 +883,12 @@ const brassElectricComponentModels: ProductModel[] = [
     id: "brass-electric-components",
     label: "Brass Electric Components",
     image: "/images/products/brass-electric-parts/range-wide.jpg",
-    images: ["/images/products/brass-electric-parts/range-wide.jpg"],
+    images: [
+      "/images/products/brass-electric-parts/range-wide.jpg",
+      "/images/products/brass-electric-parts/electric-02.jpg",
+      "/images/products/brass-electric-parts/electric-03.jpg",
+      "/images/products/brass-electric-parts/electric-04.jpg",
+    ],
     description: [
       "We are manufacturing all Kinds of Brass Electrical Components and Brass Electrical Fittings like Electrical Plug Pins, Sockets Pins, Brass Neutral Links, Brass Terminal Block, Brass Connectors, Brass Contacts and more. Brass Electrical Components are consumed in various applications like Toggle Switches, Modular Switches, Switchgears, Fuse Switches, Plug Pins & Sockets and many Electrical & Electronics Equipment or Parts.",
       "Brass Electrical Parts for various industries including Power Generation, Electronic Industry, Solar Energy, Automotive Industry, Medical Industry, Electrical and Engineering Assembly.",
