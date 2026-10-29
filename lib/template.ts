@@ -882,13 +882,8 @@ const brassElectricComponentModels: ProductModel[] = [
   {
     id: "brass-electric-components",
     label: "Brass Electric Components",
-    image: "/images/products/brass-electric-parts/electric-01.jpg",
-    images: [
-      "/images/products/brass-electric-parts/electric-01.jpg",
-      "/images/products/brass-electric-parts/electric-02.jpg",
-      "/images/products/brass-electric-parts/electric-03.jpg",
-      "/images/products/brass-electric-parts/electric-04.jpg",
-    ],
+    image: "/images/products/brass-electric-parts/range-wide.jpg",
+    images: ["/images/products/brass-electric-parts/range-wide.jpg"],
     description: [
       "We are manufacturing all Kinds of Brass Electrical Components and Brass Electrical Fittings like Electrical Plug Pins, Sockets Pins, Brass Neutral Links, Brass Terminal Block, Brass Connectors, Brass Contacts and more. Brass Electrical Components are consumed in various applications like Toggle Switches, Modular Switches, Switchgears, Fuse Switches, Plug Pins & Sockets and many Electrical & Electronics Equipment or Parts.",
       "Brass Electrical Parts for various industries including Power Generation, Electronic Industry, Solar Energy, Automotive Industry, Medical Industry, Electrical and Engineering Assembly.",
@@ -945,7 +940,7 @@ export const productFamilies: ProductFamily[] = [
     name: "Brass Electric Components",
     slug: "brass-electric-components",
     description: "Product description will be added here.",
-    image: "",
+    image: "/images/products/brass-electric-parts/range-wide.jpg",
     models: brassElectricComponentModels,
   },
   {
@@ -998,7 +993,7 @@ export type FeaturedProduct = {
 export const homepageProductRange: FeaturedProduct[] = [
   { slug: "brass-cable-glands", name: "Brass Cable Glands", category: "Products", description: productCardCopy, imageSrc: "/images/products/brass-cable-glands/range-wide.jpg" },
   { slug: "accessories", name: "Cable Gland Accessories", category: "Products", description: productCardCopy, imageSrc: "/images/products/accessories/range-wide.png" },
-  { slug: "brass-electric-components", name: "Brass Electric Components", category: "Products", description: productCardCopy, imageSrc: "/images/products/brass-electric-parts/electric-01.jpg" },
+  { slug: "brass-electric-components", name: "Brass Electric Components", category: "Products", description: productCardCopy, imageSrc: "/images/products/brass-electric-parts/range-wide.jpg" },
   { slug: "brass-inserts", name: "Brass Inserts", category: "Products", description: productCardCopy, imageSrc: "/images/products/brass-inserts/range-wide.jpg" },
 ];
 
